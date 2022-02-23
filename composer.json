@@ -1,18 +1,22 @@
 {
-    "name": "cknow/laravel-money",
+    "name": "lithiumhosting/laravel-money",
     "description": "Laravel Money",
     "keywords": [
         "laravel",
         "money",
         "currency"
     ],
-    "homepage": "https://github.com/cknow/laravel-money",
+    "homepage": "https://github.com/LithiumHosting/laravel-money",
     "license": "MIT",
     "type": "library",
     "authors": [
         {
             "name": "Ricardo Gobbo de Souza",
             "email": "ricardogobbosouza@yahoo.com.br"
+        },
+        {
+            "name": "Troy Siedsma",
+            "email": "tsiedsma@lithiumhosting.com"
         }
     ],
     "require": {
