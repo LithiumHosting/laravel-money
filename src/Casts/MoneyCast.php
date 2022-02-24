@@ -13,6 +13,13 @@ abstract class MoneyCast implements CastsAttributes
      *
      * @var string|null
      */
+    protected $amount;
+
+    /**
+     * The currency code or the model attribute holding the currency code.
+     *
+     * @var string|null
+     */
     protected $currency;
 
     /**
@@ -20,8 +27,9 @@ abstract class MoneyCast implements CastsAttributes
      *
      * @param  string|null  $currency
      */
-    public function __construct(string $currency = null)
+    public function __construct(string $amount = null, string $currency = null)
     {
+        $this->amount = $amount;
         $this->currency = $currency;
     }
 
@@ -44,11 +52,7 @@ abstract class MoneyCast implements CastsAttributes
      */
     public function get($model, string $key, $value, array $attributes)
     {
-        if ($value === null) {
-            return $value;
-        }
-
-        return Money::parse($value, $this->getCurrency($attributes));
+        return Money::parse($attributes[$this->amount], $this->getCurrency($attributes));
     }
 
     /**
@@ -64,26 +68,12 @@ abstract class MoneyCast implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        if ($value === null) {
-            return [$key => $value];
-        }
+        // $value is instance of \Money\Money
 
-        try {
-            $currency = $this->getCurrency($attributes);
-            $money = Money::parse($value, $currency);
-        } catch (InvalidArgumentException $e) {
-            throw new InvalidArgumentException(
-                sprintf('Invalid data provided for %s::$%s', get_class($model), $key)
-            );
-        }
-
-        $amount = $this->getFormatter($money);
-
-        if (array_key_exists($this->currency, $attributes)) {
-            return [$key => $amount, $this->currency => $money->getCurrency()->getCode()];
-        }
-
-        return [$key => $amount];
+            return [
+                $this->amount => (int) $value->getAmount(),
+                $this->currency => (string) $value->getCurrency()
+            ];
     }
 
     /**

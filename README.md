@@ -1,26 +1,23 @@
 # Laravel Money
 
-[![Latest Stable Version](https://poser.pugx.org/cknow/laravel-money/version)](https://packagist.org/packages/cknow/laravel-money)
-[![Total Downloads](https://poser.pugx.org/cknow/laravel-money/downloads)](https://packagist.org/packages/cknow/laravel-money)
-[![tests](https://github.com/cknow/laravel-money/workflows/tests/badge.svg)](https://github.com/cknow/laravel-money/actions)
-[![StyleCI](https://styleci.io/repos/40018123/shield?style=flat)](https://styleci.io/repos/40018123)
-[![codecov](https://codecov.io/gh/cknow/laravel-money/branch/master/graph/badge.svg)](https://codecov.io/gh/cknow/laravel-money)
 [![License](https://poser.pugx.org/cknow/laravel-money/license)](https://packagist.org/packages/cknow/laravel-money)
 
-> **Note:** This project abstracts [MoneyPHP](http://moneyphp.org/)
+> **Note:** This project abstracts [MoneyPHP](http://moneyphp.org/)  
+
+> This project is intended for internal use
 
 ## Installation
 
 Run the following command from you terminal:
 
 ```bash
-composer require cknow/laravel-money
+composer require lithiumhosting/laravel-money
 ```
 
 or add this to require section in your composer.json file:
 
 ```bash
-"cknow/laravel-money": "~6.0"
+"lithiumhosting/laravel-money": "~6.0"
 ```
 
 then run ```composer update```
@@ -144,6 +141,8 @@ use Cknow\Money\Casts\MoneyIntegerCast;
 use Cknow\Money\Casts\MoneyStringCast;
 
 protected $casts = [
+    // Added for Lithium, cast any value as Money and provide both the value and currency fields
+    'price' => MoneyDecimalCast::class.':price,currency',
     // cast money as decimal using the currency defined in the package config
     'money' => MoneyDecimalCast::class,
     // cast money as integer using the defined currency
@@ -155,6 +154,8 @@ protected $casts = [
 
 In the example above, if the model attribute `currency` is `null`,
 the currency defined in the package configuration is used instead.
+
+When calling $model->price, it will default to $1.00 format
 
 Setting money can be done in several ways:
 

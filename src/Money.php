@@ -151,7 +151,10 @@ class Money implements Arrayable, Jsonable, JsonSerializable, Renderable
         return array_merge(
             $this->attributes,
             $this->money->jsonSerialize(),
-            ['formatted' => $this->render()]
+            [
+                'formatted' => $this->render(),
+                'decimal' => $this->formatByDecimal()
+            ]
         );
     }
 
